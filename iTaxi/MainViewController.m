@@ -156,7 +156,7 @@ static ASIHTTPRequest *kRequest = nil;
     
     _locationManager = [[LocateAndDownload alloc] init];
     _locationManager.delegate = self;
-    [_locationManager startStandardUpdates];
+    //[_locationManager startStandardUpdates];
     
     
     //MKMapView跟踪用户位置
@@ -253,8 +253,8 @@ static ASIHTTPRequest *kRequest = nil;
 #pragma mark - ASIHttpRequest Delegate
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-
-    if (/*!_searchBar.hidden*/1) {
+    NSError *error = [request error];
+    if (!error) {
         [self removeAnnotations];
 //        [self.mapView removeAnnotations:self.mapView.annotations];
         // Use when fetching text data
@@ -265,6 +265,7 @@ static ASIHTTPRequest *kRequest = nil;
         NSDictionary *dict = [[CJSONDeserializer deserializer] deserializeAsDictionary:responseData error:NULL];
         [dict writeToURL:[self itemDataFilePath] atomically:YES];
         NSArray *array = [dict valueForKey:@"results"];
+        
         for (NSDictionary *dic in array) {
             
             PlaceAnnotation *anno = [[PlaceAnnotation alloc] init];
@@ -276,8 +277,19 @@ static ASIHTTPRequest *kRequest = nil;
             [_mapView addAnnotation:anno];
             [anno release];
         }
+        
+        if ([array count] == 1) {
+            _formattedAddress = [[[array objectAtIndex:0] valueForKey:@"formatted_address"] retain];
+        }
+        else {
+            //显示所有地址以供用户选择。。。
+            
+        }
         _searchBar.hidden = YES;
 
+    }
+    else {
+        NSLog(@"Request finished:%@", [error localizedDescription]);
     }
     
     kRequest = nil;
@@ -319,6 +331,10 @@ static ASIHTTPRequest *kRequest = nil;
 - (IBAction)emailSharingButtonPressed:(id)sender
 {
         
+    if (_formattedAddress == nil) {
+        NSLog(@"Locate yourself first !!!");
+        return;
+    }
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.navigationBar.barStyle = UIBarStyleBlackOpaque;
     picker.mailComposeDelegate = self;
@@ -426,7 +442,7 @@ static ASIHTTPRequest *kRequest = nil;
     }
     
     _startPointTextField.text = str;
-    _formattedAddress = [str retain];
+    //_formattedAddress = [str retain];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation {
