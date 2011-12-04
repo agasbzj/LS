@@ -31,6 +31,8 @@
     
     LocateAndDownload *_locationManager;
     UITapGestureRecognizer *_tapGes;
+    
+    NSString *_formattedAddress;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *startPointTextField;

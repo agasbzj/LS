@@ -96,6 +96,7 @@ static ASIHTTPRequest *kRequest = nil;
         
         if ([[dict valueForKey:@"results"] count]) {
             NSString *add = [[[dict valueForKey:@"results"] objectAtIndex:0] valueForKey:@"formatted_address"];
+            _formattedAddress = [add retain];
             anno.address = add;
             anno.subtitle = add;
             anno.title = @"用户选择的地点";
@@ -103,6 +104,9 @@ static ASIHTTPRequest *kRequest = nil;
 //            [_mapView removeAnnotations:_mapView.annotations];
             [_mapView addAnnotation:anno];
         }
+    }
+    else {
+        NSLog(@"%@", [error localizedDescription]);
     }
 }
 
@@ -156,10 +160,10 @@ static ASIHTTPRequest *kRequest = nil;
     
     
     //MKMapView跟踪用户位置
-    MKCoordinateRegion ragionCoor = MKCoordinateRegionMake([[[_mapView userLocation] location] coordinate], MKCoordinateSpanMake(1, 1));
-    
+//    MKCoordinateRegion ragionCoor = MKCoordinateRegionMake([[[_mapView userLocation] location] coordinate], MKCoordinateSpanMake(1, 1));
+//    
     //[_mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
-    [_mapView setRegion:ragionCoor animated:YES];
+//    [_mapView setRegion:ragionCoor animated:YES];
 }
 
 
@@ -285,16 +289,25 @@ static ASIHTTPRequest *kRequest = nil;
 //sms sharing
 - (IBAction)smsSharingButtonPressed:(id)sender
 {
-    
-    NSString *message = [NSString stringWithFormat:@"the location is:%@", "12345"];
+    if (_formattedAddress == nil) {
+        NSLog(@"Please locate first!!");
+        return;
+    }
+    if (![MFMessageComposeViewController canSendText]) {
+        NSLog(@"Device not support!");
+        return;
+    }
+    NSString *message = [NSString stringWithFormat:@"The location is:%@", _formattedAddress];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
-    picker.messageComposeDelegate= self;
+    picker.messageComposeDelegate = self;
     picker.navigationBar.tintColor= [UIColor blackColor];
     picker.body = message; // 默认信息内容
     // 默认收件人(可多个)
     //picker.recipients = [NSArray arrayWithObject:@"12345678901", nil];
     [self presentModalViewController:picker animated:YES];
     [picker release];
+    _formattedAddress = nil;
+    [_formattedAddress release];
 }
     
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
@@ -349,6 +362,9 @@ static ASIHTTPRequest *kRequest = nil;
         [_tapGes release];
     }
     _searchBar.hidden = !_searchBar.hidden;
+    if (!_searchBar.hidden) {
+        [_searchBar becomeFirstResponder];
+    }
 }
 
 //位置历史信息显示
@@ -410,6 +426,7 @@ static ASIHTTPRequest *kRequest = nil;
     }
     
     _startPointTextField.text = str;
+    _formattedAddress = [str retain];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -430,6 +447,8 @@ static ASIHTTPRequest *kRequest = nil;
         pinView.canShowCallout = YES;
         pinView.animatesDrop = YES;
         
+        MKCoordinateRegion ragionCoor = MKCoordinateRegionMake([pinView.annotation coordinate], MKCoordinateSpanMake(0.005, 0.005));
+        [_mapView setRegion:ragionCoor animated:YES];
 //        if (_locationTypeSwitch.selectedSegmentIndex == 0) {
 //            pinView.pinColor = MKPinAnnotationColorPurple;
 //        }
@@ -448,6 +467,9 @@ static ASIHTTPRequest *kRequest = nil;
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    //MKMapView跟踪用户位置
+    MKCoordinateRegion ragionCoor = MKCoordinateRegionMake([[[_mapView userLocation] location] coordinate], MKCoordinateSpanMake(0.005, 0.005));
+    [_mapView setRegion:ragionCoor animated:YES];
     NSLog(@"%@", userLocation.location);
 }
 
