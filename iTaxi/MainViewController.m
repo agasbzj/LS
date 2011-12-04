@@ -158,7 +158,7 @@ static ASIHTTPRequest *kRequest = nil;
     //MKMapView跟踪用户位置
     MKCoordinateRegion ragionCoor = MKCoordinateRegionMake([[[_mapView userLocation] location] coordinate], MKCoordinateSpanMake(1, 1));
     
-    [_mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+    //[_mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
     [_mapView setRegion:ragionCoor animated:YES];
 }
 
