@@ -67,6 +67,7 @@
 		41702AC61465A97F00CE2AE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC51465A97F00CE2AE8 /* Security.framework */; };
 		41702AC81465A9AA00CE2AE8 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC71465A9AA00CE2AE8 /* libicucore.dylib */; };
 		41702ACA1465A9BC00CE2AE8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC91465A9BC00CE2AE8 /* libsqlite3.dylib */; };
+		A9309ABF148B35C800A5707A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9309ABE148B35C800A5707A /* QuartzCore.framework */; };
 		A95A82DC13B850D200FC730D /* HistoryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A95A82DB13B850D200FC730D /* HistoryTableCell.m */; };
 		A95A82DF13B850E200FC730D /* HistoryTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A95A82DE13B850E200FC730D /* HistoryTableCell.xib */; };
 		A9B892C113B464880084DE04 /* GoogleLocationApi.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B892C013B464880084DE04 /* GoogleLocationApi.m */; };
@@ -165,6 +166,7 @@
 		41702AC51465A97F00CE2AE8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		41702AC71465A9AA00CE2AE8 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		41702AC91465A9BC00CE2AE8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A9309ABE148B35C800A5707A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A95A82DA13B850D200FC730D /* HistoryTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableCell.h; sourceTree = "<group>"; };
 		A95A82DB13B850D200FC730D /* HistoryTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableCell.m; sourceTree = "<group>"; };
 		A95A82DE13B850E200FC730D /* HistoryTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryTableCell.xib; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9309ABF148B35C800A5707A /* QuartzCore.framework in Frameworks */,
 				41702ACA1465A9BC00CE2AE8 /* libsqlite3.dylib in Frameworks */,
 				41702AC81465A9AA00CE2AE8 /* libicucore.dylib in Frameworks */,
 				41702AC61465A97F00CE2AE8 /* Security.framework in Frameworks */,
@@ -199,6 +202,7 @@
 		4108672713B32803006F0B7B = {
 			isa = PBXGroup;
 			children = (
+				A9309ABE148B35C800A5707A /* QuartzCore.framework */,
 				412BBA921466CEE1003842AE /* 在这里114new.png */,
 				412BBA901466CED5003842AE /* 在这里57new.png */,
 				412BBA8A1466C4BA003842AE /* icon114.png */,

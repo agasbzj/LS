@@ -9,7 +9,7 @@
 #import "MainViewController.h"
 #import "ASIHTTPRequest.h"
 #import "CJSONDeserializer.h"
-
+#import <QuartzCore/QuartzCore.h>
 #define kDataFile @"Data.plist"
 
 @implementation MainViewController
@@ -45,6 +45,16 @@ static ASIHTTPRequest *kRequest = nil;
 - (NSString *)histroyDataFilePath {
     NSString *p = [NSString stringWithFormat:@"%@/Documents/%@", NSHomeDirectory(), kDataFile];
     return p;
+}
+
+///截屏代码
+- (UIImage *)captureImageFromView:(UIView *)view {
+    UIGraphicsBeginImageContext(view.bounds.size);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [[img retain] autorelease];
+    return img;
 }
 
 //删除除当前位置蓝点的大头针
@@ -110,7 +120,11 @@ static ASIHTTPRequest *kRequest = nil;
         [_searchBar resignFirstResponder];
         [UIView commitAnimations];
         _searchBar.hidden = YES; //触摸地图就要将searchbar本身也消失掉
-
+        
+        if (_tapGes) {
+            [_mapView removeGestureRecognizer:_tapGes];
+            _tapGes = nil;
+        }
     }
     
 }
@@ -130,13 +144,11 @@ static ASIHTTPRequest *kRequest = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     UILongPressGestureRecognizer *tgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(mapLongPressed:)];
     [_mapView addGestureRecognizer:tgr];
     [tgr release];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapTapped:)];
-    [_mapView addGestureRecognizer:tap];
-    [tap release];
+
     
     _locationManager = [[LocateAndDownload alloc] init];
     _locationManager.delegate = self;
@@ -301,7 +313,7 @@ static ASIHTTPRequest *kRequest = nil;
         
     [picker setMessageBody:@"I share you my current location from iAlmondz." isHTML:NO];
         
-    //[picker addAttachmentData:UIImagePNGRepresentation([self image]) mimeType:@"image/png" fileName:@"sharePictures.png"];
+    [picker addAttachmentData:UIImagePNGRepresentation([self captureImageFromView:_mapView]) mimeType:@"image/png" fileName:@"sharePictures.png"];
     picker.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:picker animated:YES];
     [picker release];
@@ -331,6 +343,11 @@ static ASIHTTPRequest *kRequest = nil;
 
 //搜索按钮动作：在搜索栏显示和隐藏间切换
 - (IBAction)searchButtonPressed:(id)sender {
+    if (_tapGes == nil) {
+        _tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapTapped:)];
+        [_mapView addGestureRecognizer:_tapGes];
+        [_tapGes release];
+    }
     _searchBar.hidden = !_searchBar.hidden;
 }
 
@@ -380,6 +397,11 @@ static ASIHTTPRequest *kRequest = nil;
 
 
 #pragma mark - Map Delegate
+- (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
+    NSLog(@"Loacate Failed!!!!!!");
+}
+
+
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
 
     NSString *str = nil;
@@ -394,6 +416,7 @@ static ASIHTTPRequest *kRequest = nil;
     // try to dequeue an existing pin view first
     static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
     MKPinAnnotationView* pinView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationIdentifier];
+
     if (annotation == _mapView.userLocation) {
         return nil;
     }
@@ -403,6 +426,7 @@ static ASIHTTPRequest *kRequest = nil;
         pinView = [[[MKPinAnnotationView alloc]
                     initWithAnnotation:annotation reuseIdentifier:nil] autorelease];
         pinView.pinColor = MKPinAnnotationColorRed;
+        //[pinView setSelected:YES animated:YES];
         pinView.canShowCallout = YES;
         pinView.animatesDrop = YES;
         
@@ -425,6 +449,10 @@ static ASIHTTPRequest *kRequest = nil;
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     NSLog(@"%@", userLocation.location);
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+
 }
 
 #pragma LocateAndDownload Delegate

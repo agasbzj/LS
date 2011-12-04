@@ -30,6 +30,7 @@
     CLLocationCoordinate2D _targetCoordinate;    //目的地坐标
     
     LocateAndDownload *_locationManager;
+    UITapGestureRecognizer *_tapGes;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *startPointTextField;
