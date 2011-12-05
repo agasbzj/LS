@@ -103,6 +103,7 @@ static ASIHTTPRequest *kRequest = nil;
             [self removeAnnotations];
 //            [_mapView removeAnnotations:_mapView.annotations];
             [_mapView addAnnotation:anno];
+            [anno release];
         }
     }
     else {
