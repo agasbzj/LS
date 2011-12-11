@@ -163,6 +163,7 @@
 - (void)resultSelected {
     if (searchResultDelegate && _resultIndex >= 0) {
         [searchResultDelegate resultSelected:_resultIndex];
+        [self dismissModalViewControllerAnimated:YES];
     }
 }
 
