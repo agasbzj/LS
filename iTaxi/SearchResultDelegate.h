@@ -8,6 +8,8 @@
 
 #import "MapHttpDelegate.h"
 #import "SearchResultTableViewController.h"
-@interface SearchResultDelegate : MapHttpDelegate <SearchResultDelegate>
+@interface SearchResultDelegate : MapHttpDelegate <SearchResultDelegate> {
+    NSArray *resultArray;
+}
 
 @end

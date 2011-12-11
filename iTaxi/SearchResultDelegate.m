@@ -8,11 +8,14 @@
 
 #import "SearchResultDelegate.h"
 #import "MainViewController.h"
-@interface SearchResultDelegate() {
-    NSArray *resultArray;
-}
-- (void)setResultAnnotation:(NSInteger)index;
-@end
+
+//@interface SearchResultDelegate() {
+//    NSArray *resultArray;
+//}
+//- (void)setResultAnnotation:(NSInteger)index;
+//@end
+
+
 @implementation SearchResultDelegate
 
 

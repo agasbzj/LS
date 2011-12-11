@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "ASIHTTPRequest.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SearchResultDelegate.h"
 #import "LongpressDelegate.h"
@@ -78,16 +77,17 @@ static ASIHTTPRequest *kRequest = nil;
 
     
     //如果有一个请求，先取消这个请求
-//    if (kRequest) {
-//        [kRequest clearDelegatesAndCancel];
-//    }
+    if (kRequest) {
+        [kRequest clearDelegatesAndCancel];
+    }
     NSMutableString *url = [NSMutableString stringWithString:kGoogleDecApi];
     
     [url appendString:[NSString stringWithFormat:@"%@,%@&language=zh-CN&sensor=true", [NSNumber numberWithDouble:anno.coordinate.latitude], [NSNumber numberWithDouble:anno.coordinate.longitude]]];
     
     NSLog(@"%@", url);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-    request.delegate = self;
+    [request setDelegate:self];
+    [request setTimeOutSeconds:20];
     /*
     [request startSynchronous];
     NSError *error = [request error];
@@ -118,6 +118,7 @@ static ASIHTTPRequest *kRequest = nil;
     delegate.mainController = self;
     _mapHttpDelegate = delegate;
     [request startAsynchronous];
+    kRequest = request;
     [anno release];
 }
 
@@ -234,6 +235,9 @@ static ASIHTTPRequest *kRequest = nil;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    if (kRequest) {
+        [kRequest clearDelegatesAndCancel];
+    }
     _searchString = _searchBar.text;
     [_searchBar resignFirstResponder];
     NSLog(@"Search:%@", _searchString);
@@ -244,7 +248,7 @@ static ASIHTTPRequest *kRequest = nil;
     
     NSLog(@"%@", url);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-    request.delegate = self;
+    [request setDelegate:self];
     SearchResultDelegate *sDelegate = [[SearchResultDelegate alloc] initWithMap:_mapView];
     sDelegate.mainController = self;
     //[request setDelegate:sDelegate];
@@ -270,6 +274,7 @@ static ASIHTTPRequest *kRequest = nil;
 #pragma mark - ASIHttpRequest Delegate
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
+    kRequest = nil;
     if (_mapHttpDelegate) {
         [_mapHttpDelegate requestFinished:request];
         _mapHttpDelegate = nil;
@@ -318,6 +323,11 @@ static ASIHTTPRequest *kRequest = nil;
     */
 }
 
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    kRequest = nil;
+    NSError *error = [request error];
+    NSLog(@"Request failed:%@", [error localizedDescription]);
+}
 
 #pragma mark - IBActions for multiple style sharing
 //sms sharing

@@ -14,8 +14,8 @@
 #import "PlaceAnnotation.h"
 #import "LocateAndDownload.h"
 #import "MapHttpDelegate.h"
-
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, MKMapViewDelegate, UISearchBarDelegate, LocateSelfDelegate, MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate> {
+#import "ASIHTTPRequest.h"
+@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, MKMapViewDelegate, UISearchBarDelegate, LocateSelfDelegate, MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate, ASIHTTPRequestDelegate> {
 @private
     
     UITextField *_startPointTextField;  //出发地textfield
