@@ -13,6 +13,7 @@
 
 #import "PlaceAnnotation.h"
 #import "LocateAndDownload.h"
+#import "MapHttpDelegate.h"
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate, MKMapViewDelegate, UISearchBarDelegate, LocateSelfDelegate, MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate> {
 @private
@@ -33,6 +34,7 @@
     UITapGestureRecognizer *_tapGes;
     
     NSString *_formattedAddress;
+    MapHttpDelegate *_mapHttpDelegate;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *startPointTextField;
@@ -46,7 +48,7 @@
 
 @property (nonatomic, assign) CLLocationCoordinate2D startCoordinate;
 @property (nonatomic, assign) CLLocationCoordinate2D targetCoordinate;
-
+@property (nonatomic, retain) NSString *formattedAddress;
 
 - (IBAction)mapTypeSwitched:(id)sender;//地图类型选择
 - (IBAction)closeKeyboard:(id)sender;

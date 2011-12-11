@@ -8,8 +8,9 @@
 
 #import "MainViewController.h"
 #import "ASIHTTPRequest.h"
-#import "CJSONDeserializer.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SearchResultDelegate.h"
+#import "LongpressDelegate.h"
 #define kDataFile @"Data.plist"
 
 @implementation MainViewController
@@ -24,6 +25,7 @@
 
 @synthesize startCoordinate = _startCoordinate;
 @synthesize targetCoordinate = _targetCoordinate;
+@synthesize formattedAddress = _formattedAddress;
 
 static NSString *kGoogleGeoApi = @"http://maps.google.com/maps/api/geocode/json?address=";
 static NSString *kGoogleDecApi = @"http://maps.google.com/maps/api/geocode/json?latlng=";
@@ -85,6 +87,8 @@ static ASIHTTPRequest *kRequest = nil;
     
     NSLog(@"%@", url);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    request.delegate = self;
+    /*
     [request startSynchronous];
     NSError *error = [request error];
     if (!error) {
@@ -109,6 +113,12 @@ static ASIHTTPRequest *kRequest = nil;
     else {
         NSLog(@"%@", [error localizedDescription]);
     }
+     */
+    LongpressDelegate *delegate = [[LongpressDelegate alloc] initWithMap:_mapView annotation:anno];
+    delegate.mainController = self;
+    _mapHttpDelegate = delegate;
+    [request startAsynchronous];
+    [anno release];
 }
 
 - (void)mapTapped:(UITapGestureRecognizer *)tap {
@@ -234,7 +244,12 @@ static ASIHTTPRequest *kRequest = nil;
     
     NSLog(@"%@", url);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setDelegate:self];
+    request.delegate = self;
+    SearchResultDelegate *sDelegate = [[SearchResultDelegate alloc] initWithMap:_mapView];
+    sDelegate.mainController = self;
+    //[request setDelegate:sDelegate];
+    _mapHttpDelegate = sDelegate;
+    //[request setDelegate:self];
     [request startAsynchronous];
     
     CGPoint point = self.view.center;
@@ -249,11 +264,17 @@ static ASIHTTPRequest *kRequest = nil;
     self.view.center = point;
     [UIView commitAnimations];
     //这里需要考虑如果通过搜索地点反馈解析回来有多个选项，则以搜索栏下出现tableview方式罗列出来让用户选择。
+    searchBar.hidden = YES;
 }
 
 #pragma mark - ASIHttpRequest Delegate
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
+    if (_mapHttpDelegate) {
+        [_mapHttpDelegate requestFinished:request];
+        _mapHttpDelegate = nil;
+    }
+    /*
     NSError *error = [request error];
     if (!error) {
         [self removeAnnotations];
@@ -294,7 +315,7 @@ static ASIHTTPRequest *kRequest = nil;
     }
     
     kRequest = nil;
-    
+    */
 }
 
 

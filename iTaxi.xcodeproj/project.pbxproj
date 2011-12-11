@@ -67,6 +67,10 @@
 		41702AC61465A97F00CE2AE8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC51465A97F00CE2AE8 /* Security.framework */; };
 		41702AC81465A9AA00CE2AE8 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC71465A9AA00CE2AE8 /* libicucore.dylib */; };
 		41702ACA1465A9BC00CE2AE8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41702AC91465A9BC00CE2AE8 /* libsqlite3.dylib */; };
+		A91C10211494952700A4A10E /* MapHttpDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C10201494952700A4A10E /* MapHttpDelegate.m */; };
+		A91C1025149496F100A4A10E /* SearchResultDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C1024149496F100A4A10E /* SearchResultDelegate.m */; };
+		A91C102814949A7600A4A10E /* LongpressDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C102714949A7600A4A10E /* LongpressDelegate.m */; };
+		A91C102B1494A5AD00A4A10E /* SearchResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A91C102A1494A5AD00A4A10E /* SearchResultTableViewController.m */; };
 		A9309ABF148B35C800A5707A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9309ABE148B35C800A5707A /* QuartzCore.framework */; };
 		A95A82DC13B850D200FC730D /* HistoryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A95A82DB13B850D200FC730D /* HistoryTableCell.m */; };
 		A95A82DF13B850E200FC730D /* HistoryTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A95A82DE13B850E200FC730D /* HistoryTableCell.xib */; };
@@ -166,6 +170,14 @@
 		41702AC51465A97F00CE2AE8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		41702AC71465A9AA00CE2AE8 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		41702AC91465A9BC00CE2AE8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A91C101F1494952700A4A10E /* MapHttpDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHttpDelegate.h; sourceTree = "<group>"; };
+		A91C10201494952700A4A10E /* MapHttpDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHttpDelegate.m; sourceTree = "<group>"; };
+		A91C1023149496F100A4A10E /* SearchResultDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultDelegate.h; sourceTree = "<group>"; };
+		A91C1024149496F100A4A10E /* SearchResultDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultDelegate.m; sourceTree = "<group>"; };
+		A91C102614949A7600A4A10E /* LongpressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongpressDelegate.h; sourceTree = "<group>"; };
+		A91C102714949A7600A4A10E /* LongpressDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LongpressDelegate.m; sourceTree = "<group>"; };
+		A91C10291494A5AD00A4A10E /* SearchResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultTableViewController.h; sourceTree = "<group>"; };
+		A91C102A1494A5AD00A4A10E /* SearchResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultTableViewController.m; sourceTree = "<group>"; };
 		A9309ABE148B35C800A5707A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A95A82DA13B850D200FC730D /* HistoryTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableCell.h; sourceTree = "<group>"; };
 		A95A82DB13B850D200FC730D /* HistoryTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableCell.m; sourceTree = "<group>"; };
@@ -202,7 +214,7 @@
 		4108672713B32803006F0B7B = {
 			isa = PBXGroup;
 			children = (
-				A9309ABE148B35C800A5707A /* QuartzCore.framework */,
+				4108676B13B3361C006F0B7B /* Third Part */,
 				412BBA921466CEE1003842AE /* 在这里114new.png */,
 				412BBA901466CED5003842AE /* 在这里57new.png */,
 				412BBA8A1466C4BA003842AE /* icon114.png */,
@@ -224,12 +236,12 @@
 		4108673513B32803006F0B7B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9309ABE148B35C800A5707A /* QuartzCore.framework */,
 				41702AC91465A9BC00CE2AE8 /* libsqlite3.dylib */,
 				41702AC71465A9AA00CE2AE8 /* libicucore.dylib */,
 				41702AC51465A97F00CE2AE8 /* Security.framework */,
 				41702AC31465A97600CE2AE8 /* MessageUI.framework */,
 				410867B213B33713006F0B7B /* libz.dylib */,
-				4108676B13B3361C006F0B7B /* Third Part */,
 				410867B613B33BDE006F0B7B /* SystemConfiguration.framework */,
 				410867B413B3374F006F0B7B /* CFNetwork.framework */,
 				410867B013B336FE006F0B7B /* MobileCoreServices.framework */,
@@ -390,6 +402,14 @@
 				A95A82DA13B850D200FC730D /* HistoryTableCell.h */,
 				A95A82DB13B850D200FC730D /* HistoryTableCell.m */,
 				A95A82DE13B850E200FC730D /* HistoryTableCell.xib */,
+				A91C101F1494952700A4A10E /* MapHttpDelegate.h */,
+				A91C10201494952700A4A10E /* MapHttpDelegate.m */,
+				A91C1023149496F100A4A10E /* SearchResultDelegate.h */,
+				A91C1024149496F100A4A10E /* SearchResultDelegate.m */,
+				A91C102614949A7600A4A10E /* LongpressDelegate.h */,
+				A91C102714949A7600A4A10E /* LongpressDelegate.m */,
+				A91C10291494A5AD00A4A10E /* SearchResultTableViewController.h */,
+				A91C102A1494A5AD00A4A10E /* SearchResultTableViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -531,6 +551,10 @@
 				410867C513B33D01006F0B7B /* LocateAndDownload.m in Sources */,
 				A9B892C113B464880084DE04 /* GoogleLocationApi.m in Sources */,
 				A95A82DC13B850D200FC730D /* HistoryTableCell.m in Sources */,
+				A91C10211494952700A4A10E /* MapHttpDelegate.m in Sources */,
+				A91C1025149496F100A4A10E /* SearchResultDelegate.m in Sources */,
+				A91C102814949A7600A4A10E /* LongpressDelegate.m in Sources */,
+				A91C102B1494A5AD00A4A10E /* SearchResultTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
